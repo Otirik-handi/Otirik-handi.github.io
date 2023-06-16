@@ -24,7 +24,7 @@
 <meta property="og:description" content="记录一下课设。 什么是MD5算法？以下从百度百科摘录：  MD5信息摘要算法（英语：MD5 Message-Digest Algorithm），一种被广泛使用的密码散列函数，可以产生出一个128位（16字节）的散列值（hash value），用于确保信息传输完整一致。MD5由美国密码学家罗纳德·李维斯特（Ronald Linn Rivest）设计，于1992年公开，用以取代MD4算法。这套算法的程">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-06-12T14:45:59.000Z">
-<meta property="article:modified_time" content="2023-06-16T04:04:12.904Z">
+<meta property="article:modified_time" content="2023-06-16T06:00:43.133Z">
 <meta property="article:author" content="Otirik">
 <meta property="article:tag" content="hash">
 <meta property="article:tag" content="算法">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.5k 字
+          5k 字
         
       </span>
     
@@ -246,7 +246,7 @@
         
         
         
-          38 分钟
+          42 分钟
         
       </span>
     
@@ -353,10 +353,17 @@
 <p>分组处理函数如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">process_blk</span>(<span class="hljs-params">block: array, A: <span class="hljs-built_in">int</span>, B: <span class="hljs-built_in">int</span>, C: <span class="hljs-built_in">int</span>, D: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">tuple</span>:<br>    AA, BB, CC, DD = A, B, C, D<br>    funcs = [F, G, H, I]<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">16</span>, <span class="hljs-number">4</span>):<br>            AA = DF(AA, BB, CC, DD, block[R[i][j + <span class="hljs-number">0</span>]], S[i][<span class="hljs-number">0</span>],<br>                    T[i * <span class="hljs-number">16</span> + j + <span class="hljs-number">0</span>], funcs[i])<br>            DD = DF(DD, AA, BB, CC, block[R[i][j + <span class="hljs-number">1</span>]], S[i][<span class="hljs-number">1</span>],<br>                    T[i * <span class="hljs-number">16</span> + j + <span class="hljs-number">1</span>], funcs[i])<br>            CC = DF(CC, DD, AA, BB, block[R[i][j + <span class="hljs-number">2</span>]], S[i][<span class="hljs-number">2</span>],<br>                    T[i * <span class="hljs-number">16</span> + j + <span class="hljs-number">2</span>], funcs[i])<br>            BB = DF(BB, CC, DD, AA, block[R[i][j + <span class="hljs-number">3</span>]], S[i][<span class="hljs-number">3</span>],<br>                    T[i * <span class="hljs-number">16</span> + j + <span class="hljs-number">3</span>], funcs[i])<br><br>    A = toint32(A + AA)<br>    B = toint32(B + BB)<br>    C = toint32(C + CC)<br>    D = toint32(D + DD)<br><br>    <span class="hljs-keyword">return</span> A, B, C, D<br><br></code></pre></td></tr></table></figure>
 
-<h5 id="步骤四"><a href="#步骤四" class="headerlink" title="步骤四"></a>步骤四</h5><p>最后，我们把数据分成512bits一组，把所有分组处理完后，把A，B，C，D四个寄存器内容拼接起来就得到了128位的md5值了。</p>
+<h5 id="步骤四-拼接"><a href="#步骤四-拼接" class="headerlink" title="步骤四 拼接"></a>步骤四 拼接</h5><p>最后，我们把数据分成512bits一组，把所有分组处理完后，把A，B，C，D四个寄存器内容拼接起来就得到了128位的md5值了。</p>
 <p>md5函数如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_md5</span>(<span class="hljs-params">_data: <span class="hljs-built_in">bytes</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    data = array(<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)<br>    data.frombytes(_data)<br>    pad = get_pad(data)<br>    data.extend(pad)<br>    data = array(<span class="hljs-string">&#x27;L&#x27;</span>, data.tobytes())  <span class="hljs-comment"># 转换成32bits一组</span><br>    n = data.buffer_info()[<span class="hljs-number">1</span>] // <span class="hljs-number">16</span>  <span class="hljs-comment">#计算block的数目，一个block为512 = 16 * 32bits</span><br>    AA, BB, CC, DD = A, B, C, D<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, n):<br>        block = data[i * <span class="hljs-number">16</span>:(i + <span class="hljs-number">1</span>) * <span class="hljs-number">16</span>]<br>        AA, BB, CC, DD = process_blk(block, AA, BB, CC, DD)<br><br>    <span class="hljs-keyword">return</span> array(<span class="hljs-string">&#x27;L&#x27;</span>, [AA, BB, CC, DD]).tobytes().<span class="hljs-built_in">hex</span>()<br><br></code></pre></td></tr></table></figure>
 
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>让我们来测试一下结果如何：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">data: <span class="hljs-built_in">bytes</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> md5<br>    val1 = get_md5(data)<br>    val2 = md5(data).hexdigest()<br>    <span class="hljs-keyword">assert</span> val1 == val2<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;<span class="hljs-string">&#x27;get_md5&#x27;</span>:&lt;<span class="hljs-number">12</span>&#125;</span> -&gt; <span class="hljs-subst">&#123;val1&#125;</span>\n<span class="hljs-subst">&#123;<span class="hljs-string">&#x27;hashlib.md5&#x27;</span>:&lt;<span class="hljs-number">12</span>&#125;</span> -&gt; <span class="hljs-subst">&#123;val2&#125;</span>&quot;</span><br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    plain = <span class="hljs-string">&quot;Hello,I am Otirik~&quot;</span><br>	data = plain.encode()<br>    <span class="hljs-built_in">print</span>(test(data))<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-function"><span class="hljs-title">get_md5</span>      -&gt;</span> <span class="hljs-number">334</span>ec12acf1d613de814c117d0fa6865<br><span class="hljs-function"><span class="hljs-title">hashlib</span>.md5  -&gt;</span> <span class="hljs-number">334</span>ec12acf1d613de814c117d0fa6865<br></code></pre></td></tr></table></figure>
+
+<p>结果一致，成功实现md5算法!</p>
 <p>End~</p>
 
                 
